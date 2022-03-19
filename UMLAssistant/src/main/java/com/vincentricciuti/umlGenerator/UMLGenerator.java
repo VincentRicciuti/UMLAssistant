@@ -18,7 +18,6 @@ public class UMLGenerator {
 
     public <T> void classToClassDiagramSystemOut(Class<T> inputClass) {
 	uMLGenExtractor = new UMLGenExtractor();
-	uMLGenCleaner = new UMLGenCleaner();
 	StringBuilder stringBuilder = new StringBuilder();
 
 	// Line breaks for readability
@@ -31,6 +30,7 @@ public class UMLGenerator {
 	// Methods which are extracted by reflection have square brackets for parameters
 	char[] charArr = new char[stringBuilder.length()];
 	stringBuilder.getChars(0, stringBuilder.length(), charArr, 0);
+	uMLGenCleaner = new UMLGenCleaner();
 	uMLGenCleaner.replaceSquareBracketsWithParentheses(charArr);
 
 	String charArrayAsString = new String(charArr);
