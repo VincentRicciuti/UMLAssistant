@@ -15,3 +15,4 @@ This is achieved through the use of **Java's Reflection API** to return the deta
  1. Any text formatting for the UML Standard is not able to be
     represented via console output. 
     *Perhaps sending the output String to a file with a special format with formatting tags can fix this?*
+ 2. Incomplete testing suite
