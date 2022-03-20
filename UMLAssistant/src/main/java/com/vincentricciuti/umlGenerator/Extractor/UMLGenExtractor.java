@@ -3,6 +3,7 @@
  */
 package com.vincentricciuti.umlGenerator.Extractor;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -20,12 +21,22 @@ import com.vincentricciuti.umlGenerator.Converter.UMLGenConverter;
  *
  */
 public class UMLGenExtractor {
-    
+
     private UMLGenConverter uMLGenConverter = new UMLGenConverter();
     private UMLGenCleaner uMLGenCleaner = new UMLGenCleaner();
-    
+
     public <T> void extractClassName(Class<T> inputClass, StringBuilder inputStringBuilder) {
 	inputStringBuilder.append(inputClass.getSimpleName() + '\n');
+    }
+
+    public <T> void extractInterfaces(Class<T> inputClass, StringBuilder inputStringBuilder) {
+	List<String> interfaceList = new ArrayList<>();
+	Arrays.stream(inputClass.getInterfaces()).forEach(implementedInterface -> {
+	    String interfaceName = implementedInterface.getSimpleName();
+	    interfaceList.add(interfaceName);
+	});
+	String interfaceListAsString = interfaceList.toString().substring(1, interfaceList.toString().length() - 1);
+	inputStringBuilder.append(interfaceListAsString + '\n');
     }
 
     public <T> void extractFields(Class<T> inputClass, StringBuilder inputStringBuilder) {
@@ -42,6 +53,9 @@ public class UMLGenExtractor {
 
     public <T> void extractMethods(Class<T> inputClass, StringBuilder inputStringBuilder) {
 	Arrays.stream(inputClass.getDeclaredMethods()).forEach(method -> {
+	    for (Annotation a : inputClass.getAnnotations()) {
+		System.out.println("abc " + a.toString());
+	    }
 	    Parameter[] methodParametersArray = method.getParameters();
 	    Type[] genericParameterTypes = method.getGenericParameterTypes();
 
@@ -64,5 +78,10 @@ public class UMLGenExtractor {
 	    inputStringBuilder.append(methodModifiers + " " + methodSimpleName + " " + methodParameters + " : "
 		    + methodReturnType + '\n');
 	});
+    }
+
+    public <T> void extractSuperClass(Class<T> inputClass, StringBuilder stringBuilder) {
+	String superClassString = inputClass.getSuperclass().getSimpleName();
+	stringBuilder.append(superClassString + '\n');
     }
 }

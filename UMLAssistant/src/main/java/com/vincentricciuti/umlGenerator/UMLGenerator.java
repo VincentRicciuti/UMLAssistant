@@ -22,6 +22,10 @@ public class UMLGenerator {
 
 	// Line breaks for readability
 	uMLGenExtractor.extractClassName(inputClass, stringBuilder);
+	stringBuilder.append("extends: ");
+	uMLGenExtractor.extractSuperClass(inputClass, stringBuilder);
+	stringBuilder.append("implements: ");
+	uMLGenExtractor.extractInterfaces(inputClass, stringBuilder);
 	stringBuilder.append('\n');
 	uMLGenExtractor.extractFields(inputClass, stringBuilder);
 	stringBuilder.append('\n');
@@ -33,8 +37,7 @@ public class UMLGenerator {
 	uMLGenCleaner = new UMLGenCleaner();
 	uMLGenCleaner.replaceSquareBracketsWithParentheses(charArr);
 
-	String charArrayAsString = new String(charArr);
-	String finalOutput = charArrayAsString.replace(" (", "(");
+	String finalOutput = new String(charArr).replace(" (", "(");
 	System.out.println("=== GENERATED TEXT CLASS DIAGRAM === " + '\n' + '\n' + finalOutput + '\n' + "=== END ===");
     }
 }
